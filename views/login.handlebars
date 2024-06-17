@@ -14,12 +14,9 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Logar</button>
+
+        <p id="error" class="text-danger invisible">Email ou senha incorretos</p>
     </form>
-
-
-
-    
-
 </div>
 
 <script>
@@ -37,8 +34,14 @@
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+
+                if (data) {
+                    location.replace('/logado')
+                }
+
+                document.querySelector("#error").classList.remove("invisible")
+            })
             .catch(e => console.log(e))
-            .finally(() => console.log("FIM"))
     })
 </script>

@@ -3,11 +3,8 @@ const app = express()
 const handlebars = require("express-handlebars").engine
 const bodyParser = require("body-parser")
 const { initializeApp } = require('firebase/app')
-const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore')
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require("firebase/auth");
 const cors = require("cors");
-
-const serviceAccount = require('./firebase/chave-firebase.json')
 
 const firebaseConfig = {
     apiKey: "AIzaSyBYnJstOubrqeDhdJP9-tDIWyhHgxNTIKQ",
@@ -20,16 +17,9 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const db = initializeApp({
-  credential: cert(serviceAccount)
-})
-
-
 const auth = getAuth(firebaseApp);
 
 app.use(cors());
-
-const db = getFirestore()
 
 app.engine("handlebars", handlebars({
     defaultLayout: "main"
@@ -44,26 +34,20 @@ app.get("/", function(req, res){
     res.render("login")
 })
 
-app.post("/cadastrar", function(req, res){
-    var result = db.collection('agendamentos').add({
-        nome: req.body.nome,
-        telefone: req.body.telefone,
-        origem: req.body.origem,
-        data_contato: req.body.data_contato,
-        observacao: req.body.observacao
-    }).then(function(){
-        console.log('Documento adicionado!');
-        res.redirect('/')
-    })
+app.get('/logado', (req, res) => {
+    res.render("index");
 })
 
 app.post("/login", async (req, res) => {
-    const data = req.body;
+    try {
+        const data = req.body;
 
-    const userCredentials = await signInWithEmailAndPassword(auth, data.usuario, data.senha);
-    console.log(userCredentials);
+        const userCredentials = await signInWithEmailAndPassword(auth, data.usuario, data.senha);
 
-    res.json("");
+        res.json(true);
+    } catch(e) {
+        res.json(false);
+    }
 })
 
 app.get("/consultar", function(req, res){
