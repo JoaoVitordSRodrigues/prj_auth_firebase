@@ -7,12 +7,7 @@ const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = 
 const cors = require("cors");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBYnJstOubrqeDhdJP9-tDIWyhHgxNTIKQ",
-    authDomain: "projeto-firebase-eb183.firebaseapp.com",
-    projectId: "projeto-firebase-eb183",
-    storageBucket: "projeto-firebase-eb183.appspot.com",
-    messagingSenderId: "809837411834",
-    appId: "1:809837411834:web:da4fa5b7dcdf3305d5f843"
+    
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
